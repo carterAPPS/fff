@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FFF Diamonds – Free Fire Entertainment App</title>
+  <meta name="description" content="FFF Diamonds is the ultimate Free Fire entertainment app. Spin the wheel, claim daily bonuses, and compete on the leaderboard. For entertainment only." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0A1A;
+      --bg-card:   #12122A;
+      --bg-card2:  #1A1A30;
+      --gold:      #FFD700;
+      --gold2:     #FF6D00;
+      --diamond:   #00E5FF;
+      --diamond2:  #7C4DFF;
+      --orange:    #FF6D00;
+      --white:     #FFFFFF;
+      --muted:     rgba(255,255,255,0.55);
+      --border:    rgba(255,215,0,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ── UTILS ── */
+    .gold-text {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .diamond-text {
+      background: linear-gradient(135deg, var(--diamond), var(--diamond2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--diamond);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 40px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10,10,26,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--diamond), var(--diamond2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 16px rgba(0,229,255,0.4);
+    }
+    .nav-logo-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000 !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--gold); border-radius: 2px; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,229,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 60%, rgba(124,77,255,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(255,215,0,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float linear infinite;
+      opacity: 0;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 0.6; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 760px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,229,255,0.1);
+      border: 1px solid rgba(0,229,255,0.25);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      color: var(--diamond);
+      letter-spacing: 1px;
+      margin-bottom: 32px;
+      animation: fadeInDown 0.6s ease both;
+    }
+    .hero-icon {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--diamond), var(--diamond2));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 32px;
+      font-size: 56px;
+      box-shadow: 0 0 60px rgba(0,229,255,0.35), 0 0 120px rgba(0,229,255,0.15);
+      animation: fadeInDown 0.5s ease both, pulse 3s ease-in-out 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 60px rgba(0,229,255,0.35), 0 0 120px rgba(0,229,255,0.15); }
+      50%       { box-shadow: 0 0 80px rgba(0,229,255,0.55), 0 0 160px rgba(0,229,255,0.25); }
+    }
+    .hero-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(42px, 8vw, 80px);
+      font-weight: 700;
+      line-height: 1.0;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.7s ease 0.1s both;
+    }
+    .hero-title-sub {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.7s ease 0.2s both;
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s ease 0.4s both;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      padding: 15px 34px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      box-shadow: 0 8px 32px rgba(255,215,0,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-3px); opacity: 0.9; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-size: 15px;
+      letter-spacing: 1px;
+      padding: 14px 34px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); background: rgba(255,215,0,0.06); transform: translateY(-3px); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: fadeIn 1.5s ease 1.5s both;
+    }
+    .scroll-dot {
+      width: 22px; height: 36px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 11px;
+      display: flex;
+      justify-content: center;
+      padding-top: 6px;
+    }
+    .scroll-dot::after {
+      content: '';
+      width: 4px; height: 8px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: scrollDot 1.5s ease infinite;
+    }
+    @keyframes scrollDot {
+      0%   { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(10px); opacity: 0; }
+    }
+
+    /* ── PREVIEW CARDS ── */
+    #preview {
+      padding: 0 24px 100px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .preview-card:hover { transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,229,255,0.15); }
+    .preview-card-top {
+      padding: 28px 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .preview-emoji {
+      font-size: 36px;
+      width: 64px; height: 64px;
+      background: var(--bg-card2);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .preview-info h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .preview-tag {
+      font-size: 11px;
+      color: var(--diamond);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .preview-stars {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--gold);
+      padding: 0 24px 20px;
+    }
+    .preview-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--diamond), var(--diamond2));
+      border-radius: 0 0 20px 20px;
+    }
+    .preview-card:nth-child(2) .preview-bar { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
+    .preview-card:nth-child(3) .preview-bar { background: linear-gradient(90deg, var(--diamond2), #E040FB); }
+
+    /* ── FEATURES ── */
+    #features { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-card2) 50%, var(--bg) 100%); }
+    .features-inner { max-width: 1100px; margin: 0 auto; padding: 100px 24px; }
+    .features-header { text-align: center; margin-bottom: 70px; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--diamond), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.35); box-shadow: 0 16px 50px rgba(0,229,255,0.1); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 18px;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(0,229,255,0.4));
+    }
+    .feature-card h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ── STATS ── */
+    #stats { padding: 0 24px; }
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 60px 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,229,255,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .stat-item h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-item p { color: var(--muted); font-size: 13px; letter-spacing: 1px; }
+    .stat-divider { width: 1px; background: var(--border); }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+    .how-header { text-align: center; margin-bottom: 70px; }
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    .how-steps::before {
+      content: '';
+      position: absolute;
+      top: 40px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), var(--diamond), var(--diamond2));
+      opacity: 0.3;
+    }
+    .how-step { text-align: center; }
+    .how-step-num {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      position: relative;
+    }
+    .how-step:nth-child(1) .how-step-num { background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,109,0,0.15)); border: 2px solid rgba(255,215,0,0.4); color: var(--gold); }
+    .how-step:nth-child(2) .how-step-num { background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(124,77,255,0.15)); border: 2px solid rgba(0,229,255,0.4); color: var(--diamond); }
+    .how-step:nth-child(3) .how-step-num { background: linear-gradient(135deg, rgba(124,77,255,0.15), rgba(224,64,251,0.15)); border: 2px solid rgba(124,77,255,0.4); color: var(--diamond2); }
+    .how-step h3 { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+    .how-step p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ── DISCLAIMER ── */
+    #about { max-width: 1100px; margin: 0 auto; padding: 100px 24px; }
+    .disclaimer-box {
+      background: rgba(255,109,0,0.07);
+      border: 1px solid rgba(255,109,0,0.3);
+      border-radius: 20px;
+      padding: 32px 36px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+    .disclaimer-icon { font-size: 32px; flex-shrink: 0; }
+    .disclaimer-box h3 { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1px; color: var(--orange); margin-bottom: 10px; }
+    .disclaimer-box p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .about-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+    }
+    .about-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1px; margin-bottom: 14px; }
+    .about-card p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+
+    /* ── PRIVACY ── */
+    #privacy { max-width: 1100px; margin: 0 auto; padding: 100px 24px; }
+    .privacy-header { text-align: center; margin-bottom: 50px; }
+    .privacy-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .privacy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+    }
+    .privacy-card h3 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .privacy-card p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+
+    /* ── CTA BANNER ── */
+    #cta { padding: 0 24px 100px; }
+    .cta-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(124,77,255,0.08) 100%);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 28px;
+      padding: 70px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,229,255,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner h2 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(30px, 5vw, 50px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .cta-inner p { color: var(--muted); font-size: 16px; margin-bottom: 40px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-top: 14px; margin-bottom: 20px; }
+    .footer-col h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { color: var(--muted); font-size: 13px; }
+    .footer-badges { display: flex; gap: 12px; }
+    .footer-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp   { from { opacity: 0; transform: translateY(20px); }  to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn     { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .shimmer-text {
+      background: linear-gradient(90deg, var(--gold) 0%, #fff 40%, var(--gold) 60%, var(--gold2) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-divider { display: none; }
+      .how-steps { grid-template-columns: 1fr; }
+      .how-steps::before { display: none; }
+      .about-grid { grid-template-columns: 1fr; }
+      .privacy-cards { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .preview-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: rgba(10,10,26,0.97); backdrop-filter: blur(20px); padding: 24px; border-bottom: 1px solid var(--border); gap: 20px; z-index: 99; }
+      .hamburger { display: flex; }
+      .features-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: 1fr 1fr; padding: 40px 24px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .disclaimer-box { flex-direction: column; }
+      .cta-inner { padding: 50px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">💎</div>
+      <span class="nav-logo-text gold-text">FFF DIAMONDS</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#cta">Get on Google Play</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">✨ FREE ENTERTAINMENT APP &nbsp;•&nbsp; FOR FREE FIRE FANS</div>
+      <div class="hero-icon">💎</div>
+      <h1 class="hero-title shimmer-text">FFF DIAMONDS</h1>
+      <p class="hero-title-sub">Free Fire Entertainment</p>
+      <p class="hero-desc">Spin the wheel, claim daily bonuses, and battle your way to the top of the leaderboard. 100% free, 100% fun.</p>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1.01-1.3 1.67-.78l13 8.5c.58.38.58 1.18 0 1.56l-13 8.5C3.99 21.8 3 21.33 3 20.5z"/></svg>
+          Get on Google Play
+        </a>
+        <a href="#features" class="btn-secondary">
+          Explore Features ↓
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-dot"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- PREVIEW CARDS -->
+  <div id="preview">
+    <div class="preview-grid">
+
+      <div class="preview-card reveal">
+        <div class="preview-card-top">
+          <div class="preview-emoji">🎰</div>
+          <div class="preview-info">
+            <h3>Spin Wheel</h3>
+            <span class="preview-tag">Win Up To 500 💎</span>
+          </div>
+        </div>
+        <div class="preview-stars">
+          ★★★★★ <span style="color:var(--muted); margin-left:6px;">3 Spins Per Session</span>
+        </div>
+        <div class="preview-bar"></div>
+      </div>
+
+      <div class="preview-card reveal reveal-delay-1">
+        <div class="preview-card-top">
+          <div class="preview-emoji">🎁</div>
+          <div class="preview-info">
+            <h3>Daily Bonus</h3>
+            <span class="preview-tag" style="color:var(--gold);">Every 24 Hours</span>
+          </div>
+        </div>
+        <div class="preview-stars" style="color:var(--gold);">
+          ★★★★★ <span style="color:var(--muted); margin-left:6px;">7-Day Streak Rewards</span>
+        </div>
+        <div class="preview-bar"></div>
+      </div>
+
+      <div class="preview-card reveal reveal-delay-2">
+        <div class="preview-card-top">
+          <div class="preview-emoji">👑</div>
+          <div class="preview-info">
+            <h3>Leaderboard</h3>
+            <span class="preview-tag" style="color:#B388FF;">Top 10 Players</span>
+          </div>
+        </div>
+        <div class="preview-stars" style="color:#B388FF;">
+          ★★★★★ <span style="color:var(--muted); margin-left:6px;">Compete Globally</span>
+        </div>
+        <div class="preview-bar"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="features-inner">
+      <div class="features-header reveal">
+        <p class="section-label">Why Players Love It</p>
+        <h2 class="section-title">Everything a Free Fire fan <span class="gold-text">needs.</span></h2>
+        <p class="section-sub" style="margin: 0 auto;">Built with Flutter for buttery-smooth animations, instant load times, and a gorgeous dark UI designed for gamers.</p>
+      </div>
+      <div class="features-grid">
+
+        <div class="feature-card reveal">
+          <span class="feature-icon">🎰</span>
+          <h3 class="gold-text">Spin Wheel</h3>
+          <p>8-segment animated wheel with weighted rewards. Win 10 to 500 virtual diamonds per spin. 3 spins every session — come back for more!</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-1">
+          <span class="feature-icon">🎁</span>
+          <h3 class="diamond-text">Daily Bonus</h3>
+          <p>Claim a reward chest every 24 hours. Your streak grows day by day — Day 7 rewards are legendary. Don't break the chain!</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <span class="feature-icon">👑</span>
+          <h3 style="background:linear-gradient(135deg,#B388FF,#E040FB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Leaderboard</h3>
+          <p>Compete with players worldwide. Rise through the ranks with a stunning podium display for the top 3. Can you claim the crown?</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-1">
+          <span class="feature-icon">🌙</span>
+          <h3 class="gold-text">Dark UI Design</h3>
+          <p>A cinematic dark theme with glowing neon accents, gold highlights, and silky animations. Looks stunning on every screen.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <span class="feature-icon">⚡</span>
+          <h3 class="diamond-text">Native Performance</h3>
+          <p>Built entirely with Flutter — zero lag, instant transitions, and silky-smooth 60fps animations throughout the entire app.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-3">
+          <span class="feature-icon">🔒</span>
+          <h3 style="background:linear-gradient(135deg,#00E676,#00BFA5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Privacy First</h3>
+          <p>Zero account required. All data stored locally on your device. No servers, no tracking, no personal data collected. Ever.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div id="stats" style="padding-bottom: 100px;">
+    <div class="stats-inner reveal">
+      <div class="stat-item">
+        <h2 class="gold-text">500<span style="-webkit-text-fill-color:var(--gold);">💎</span></h2>
+        <p>Max Per Spin</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h2 class="diamond-text">FREE</h2>
+        <p>No Subscription</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h2 class="gold-text">4.8★</h2>
+        <p>User Rating</p>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <h2 style="background:linear-gradient(135deg,#B388FF,#E040FB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">7</h2>
+        <p>Day Streak Rewards</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div id="how">
+      <div class="how-header reveal">
+        <p class="section-label">Simple & Fun</p>
+        <h2 class="section-title">How to play in <span class="diamond-text">3 steps.</span></h2>
+      </div>
+      <div class="how-steps">
+        <div class="how-step reveal">
+          <div class="how-step-num">1</div>
+          <h3>Download the App</h3>
+          <p>Get FFF Diamonds free from Google Play. Install in seconds, no sign-up, no account needed.</p>
+        </div>
+        <div class="how-step reveal reveal-delay-1">
+          <div class="how-step-num">2</div>
+          <h3>Spin & Collect</h3>
+          <p>Spin the animated wheel 3 times per session, claim your daily bonus chest, and watch your diamond balance grow.</p>
+        </div>
+        <div class="how-step reveal reveal-delay-2">
+          <div class="how-step-num">3</div>
+          <h3>Top the Leaderboard</h3>
+          <p>Compete with other players, climb the rankings, and reach the #1 spot on the diamond leaderboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / DISCLAIMER -->
+  <section id="about">
+    <div style="max-width:1100px;margin:0 auto;padding:100px 24px 0;">
+      <div class="reveal" style="text-align:center;margin-bottom:50px;">
+        <p class="section-label">About the App</p>
+        <h2 class="section-title">Built for <span class="gold-text">Free Fire fans.</span></h2>
+      </div>
+
+      <div class="disclaimer-box reveal">
+        <div class="disclaimer-icon">⚠️</div>
+        <div>
+          <h3>ENTERTAINMENT ONLY — IMPORTANT NOTICE</h3>
+          <p>FFF Diamonds is an independent entertainment application. It is <strong>NOT affiliated with, endorsed by, or connected to Garena Free Fire</strong>, BOOYAH, or any related companies. All in-app diamonds are <strong>purely virtual</strong>, have <strong>no real-world monetary value</strong>, and <strong>cannot be transferred or used in any actual game</strong>. This app is for entertainment purposes only.</p>
+        </div>
+      </div>
+
+      <div class="about-grid reveal">
+        <div class="about-card">
+          <h3 class="diamond-text">🎮 Who Is This For?</h3>
+          <p>FFF Diamonds is designed for Free Fire enthusiasts who love the thrill of spinning, collecting, and competing — without spending real money. It's a fun, casual entertainment experience inspired by the Free Fire universe.</p>
+        </div>
+        <div class="about-card">
+          <h3 class="gold-text">📱 Platform & Technology</h3>
+          <p>Built natively with Flutter for Android, FFF Diamonds delivers a premium app experience with smooth animations, a beautiful dark UI, and fast performance — all packaged in a small, lightweight APK.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section id="privacy">
+    <div class="privacy-header reveal">
+      <p class="section-label">Your Data</p>
+      <h2 class="section-title">Privacy by <span class="diamond-text">design.</span></h2>
+      <p class="section-sub" style="margin: 0 auto; text-align:center;">We believe in minimal data collection and full transparency. Here's exactly what we do and don't do.</p>
+    </div>
+    <div class="privacy-cards">
+      <div class="privacy-card reveal">
+        <h3><span>💾</span> Data Storage</h3>
+        <p>All your progress — diamond count, daily bonus, spin history — is stored <strong>locally on your device</strong> using SharedPreferences. We never transmit your data to any server.</p>
+      </div>
+      <div class="privacy-card reveal reveal-delay-1">
+        <h3><span>🙅</span> No Account Required</h3>
+        <p>Zero sign-up. No email, no password, no social login. You open the app and play. That's it. No personally identifiable information is ever collected.</p>
+      </div>
+      <div class="privacy-card reveal reveal-delay-2">
+        <h3><span>🛡️</span> No Sensitive Permissions</h3>
+        <p>FFF Diamonds requests no camera, microphone, contacts, or location permissions. The only permission needed is internet access for future ad support.</p>
+      </div>
+      <div class="privacy-card reveal reveal-delay-3">
+        <h3><span>👶</span> Children's Safety</h3>
+        <p>This app is suitable for users aged 13+. We do not knowingly collect data from children under 13. There are no in-app purchases or real-money elements.</p>
+      </div>
+      <div class="privacy-card reveal">
+        <h3><span>📢</span> Advertising</h3>
+        <p>The app may display advertisements via third-party networks. These may collect anonymous usage data per their own policies. We never sell your personal data to advertisers.</p>
+      </div>
+      <div class="privacy-card reveal reveal-delay-1">
+        <h3><span>✉️</span> Contact Us</h3>
+        <p>Questions about your privacy? Reach us at <strong style="color:var(--diamond);">support@fffdiamonds.app</strong> — we aim to respond within 48 hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section id="cta">
+    <div class="cta-inner reveal">
+      <p class="section-label" style="color:var(--diamond);">Ready to Play?</p>
+      <h2>Start spinning.<br><span class="gold-text">Win diamonds.</span></h2>
+      <p>Download free. No account needed. Just pure entertainment.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="#" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83 1.01-1.3 1.67-.78l13 8.5c.58.38.58 1.18 0 1.56l-13 8.5C3.99 21.8 3 21.33 3 20.5z"/></svg>
+          Get on Google Play
+        </a>
+        <a href="#features" class="btn-secondary">View Features</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a class="nav-logo" href="#" style="text-decoration:none;">
+            <div class="nav-logo-icon">💎</div>
+            <span class="nav-logo-text gold-text">FFF DIAMONDS</span>
+          </a>
+          <p>The ultimate Free Fire entertainment app. Spin, collect, and compete — 100% free, 100% fun.</p>
+          <div style="display:flex;gap:12px;">
+            <div class="footer-badge">📱 Android</div>
+            <div class="footer-badge">⚡ Flutter</div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>App</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#cta">Google Play</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#privacy">Terms of Service</a></li>
+            <li><a href="#about">Disclaimer</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:support@fffdiamonds.app">support@fffdiamonds.app</a></li>
+            <li><a href="#contact">Report an Issue</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 FFF Diamonds. All rights reserved. Not affiliated with Garena Free Fire.</p>
+        <div class="footer-badges">
+          <div class="footer-badge">🔒 Privacy Friendly</div>
+          <div class="footer-badge">🎮 Entertainment Only</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Particles ──
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#FFD700','#00E5FF','#7C4DFF','#FF6D00','#ffffff'];
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 5 + 2;
+        p.style.cssText = `
+          width:${size}px; height:${size}px;
+          background:${colors[Math.floor(Math.random()*colors.length)]};
+          left:${Math.random()*100}%;
+          animation-duration:${Math.random()*12+8}s;
+          animation-delay:${Math.random()*10}s;
+          opacity:0;
+        `;
+        container.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Navbar scroll ──
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.background = window.scrollY > 60
+        ? 'rgba(10,10,26,0.97)'
+        : 'rgba(10,10,26,0.85)';
+    });
+
+    // ── Mobile menu ──
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+
+    // ── Counter animation ──
+    function animateCounter(el, target, suffix='') {
+      let start = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) { start = target; clearInterval(timer); }
+        el.textContent = Math.floor(start) + suffix;
+      }, 16);
+    }
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          statsObserver.unobserve(e.target);
+          const counters = e.target.querySelectorAll('.stat-item h2[data-target]');
+          counters.forEach(c => {
+            animateCounter(c, parseInt(c.dataset.target), c.dataset.suffix || '');
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    const statsEl = document.querySelector('.stats-inner');
+    if (statsEl) statsObserver.observe(statsEl);
+  </script>
+</body>
+</html>
